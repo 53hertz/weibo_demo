@@ -10009,3 +10009,7 @@ body {
 nav.navbar.navbar-expand-lg {
   margin-bottom: 20px;
 }
+
+a:hover {
+  color: blue !important;
+}
