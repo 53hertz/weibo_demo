@@ -27,8 +27,9 @@ class SessionsController extends Controller
         }
     }
 
-    public function destory()
+    public function destroy()
     {
-
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
