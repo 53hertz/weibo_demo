@@ -15,10 +15,11 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::query()->create([
-            'name' => 'hjs',
-            'email' => '1094307157@qq.com',
-            'password' => Hash::make('password'),
-        ]);
+        User::factory()->count(20)->create();
+
+        $user = User::find(1);
+        $user->name = 'ybb';
+        $user->email = 'ybb@business.com';
+        $user->save();
     }
 }
