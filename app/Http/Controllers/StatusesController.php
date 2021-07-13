@@ -37,10 +37,13 @@ class StatusesController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Status  $status
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Status $status)
     {
-        //
+        $this->authorize('destroy', $status);
+        $status->delete();
+        session()->flash('success', '微博已被成功删除！');
+        return redirect()->back();
     }
 }
