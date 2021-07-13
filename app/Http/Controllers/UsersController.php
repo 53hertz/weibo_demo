@@ -38,7 +38,8 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $statuses = $user->getStatuses('desc', 30);
+        return view('users.show', compact('user', 'statuses'));
     }
 
     public function store(Request $request)

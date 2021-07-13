@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Status::class);
     }
+
+    public function getStatuses($orderby = 'desc', $number = 10)
+    {
+        return $this->statuses()->orderBy('created_at', $orderby)->paginate($number);
+    }
 }
