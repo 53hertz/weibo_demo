@@ -11,7 +11,7 @@ class StaticController extends Controller
     {
         $items = [];
         if (Auth::check()) {
-            $items = Auth::user()->getStatuses('desc', 5);
+            $items = Auth::user()->feed()->paginate(5);
         }
         return view('static_pages/home', compact('items'));
     }
