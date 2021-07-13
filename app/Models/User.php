@@ -52,7 +52,7 @@ class User extends Authenticatable
     public static function boot()
     {
         parent::boot();
-        static::creating(function($user){
+        static::creating(function ($user) {
             $user->activation_token = Str::random(10);
         });
     }
@@ -65,5 +65,38 @@ class User extends Authenticatable
     public function getStatuses($orderby = 'desc', $number = 10)
     {
         return $this->statuses()->orderBy('created_at', $orderby)->paginate($number);
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
+    }
+
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    public function follow($user_ids)
+    {
+        if (!is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+
+        $this->followings()->sync($user_ids, false);
+    }
+
+    public function unfollow($user_ids)
+    {
+        if (!is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+
+        $this->followings()->detach($user_ids);
+    }
+
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contain($user_id);
     }
 }
