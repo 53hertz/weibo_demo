@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StaticController extends Controller
 {
     public function home()
     {
-        return view('static_pages/home');
+        $items = [];
+        if (Auth::check()) {
+            $items = Auth::user()->getStatuses('desc', 5);
+        }
+        return view('static_pages/home', compact('items'));
     }
 
     public function help()
